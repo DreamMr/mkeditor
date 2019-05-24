@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编写文章页面</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="bootstrap-markdown/css/bootstrap-markdown-editor.css">
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap-markdown/js/bootstrap-markdown-editor.js"></script>
+    <script src="bootstrap-markdown/js/ace.js"></script>
+    <script src="bootstrap-markdown/js/marked.min.js"></script>
+    <style>
+        .mypre-scrollable {
+            max-height: 630px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation"><a href="#">wwb</a></li>
+            </ul>
+        </nav>
+        <h1 class="text-muted"><a href="#" id="returnIndex">MD</a></h1>
+    </div>
+    <br><br>
+    <div>
+        <h3 style="font-family: 华文琥珀">文章标题(剩余<label id="titleLabel">20</label>字)</h3><br><br>
+        <input type="text" class="input-lg" id="title" style="font-size: xx-large;width: 70%;"/>
+    </div>
+    <hr>
+    <div>
+        <h3 style="font-family: 华文琥珀">文章摘要(剩余<label id="summaryLabel" >150</label>字)</h3>
+        <textarea class="text-primary input-sm" id="summary" style="width: 70%;resize:none"></textarea>
+    </div>
+    <hr>
+    <div>
+        <h3 style="font-family: 华文琥珀">文章内容</h3><br>
+        <div >
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="row clearfix">
+                        <div class="col-md-5 column">
+                            <textarea name="text" id="editor">
+                            </textarea>
+                        </div>
+                        <div class="col-md-7 column">
+                            <div id="preview" class="mypre-scrollable" style="width: 100%;height: 1000px;overflow:auto">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<table cellspacing="50px" style="table-layout: fixed">-->
+                <!--<tr>-->
+                    <!--<td>-->
+                    <!--<textarea name="text" id="editor">-->
+                    <!--</textarea>-->
+                    <!--</td>-->
+                    <!--<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>-->
+                    <!--<td>-->
+                        <!--<div id="preview" class="pre-scrollable" style="width: 100%;height: 650px;overflow: auto">-->
+
+                        <!--</div>-->
+                    <!--</td>-->
+                <!--</tr>-->
+            <!--</table>-->
+        </div>
+    </div>
+    <br><br>
+    <div>
+        <button id="submmit" class="btn btn-primary btn-lg" style="margin-left: 42%">上传文章</button>
+    </div>
+    <br><br><br>
+</div>
+</div>
+</body>
+<script>
+    //*************常量定义
+    var maxTitle=20;
+    var maxSummary=150;
+
+
+    //****************在此添加工具******
+    function checkTitle(title){
+        if(title.length>maxTitle){return false;}
+        else return true;
+    }
+    function checkSummary(summary){
+        console.log(summary.length);
+        if(summary.length>maxSummary){return false;}
+        else {return true;}
+    }
+//**********************监听事件*************************
+    $("#title").bind('input propertychange','textarea',function () {
+        var len=$("#title").val().length;
+        console.log(len);
+        $("#titleLabel").html(maxTitle-len);
+    });
+    $("#summary").bind('input propertychange','textarea',function () {
+        var len=$("#summary").val().length;
+        $("#summaryLabel").html(maxSummary-len);
+    })
+    //****************功能函数******************
+    jQuery(document).ready(function($) {
+        $('#title').bind('input propertychange','textarea',function(){
+             console.log("yes into");
+        });
+        $('#editor').markdownEditor({
+            onMyChange:function (content) {
+                console.log(content);
+                $("#preview").empty();
+                $("#preview").html(marked(content));
+            }
+        });
+        //***********************上传文章**************************
+        $("#submmit").click(function () {
+            var title = $("#title").val();
+            var summary = $("#summary").val();
+            var content = $("#editor").val();
+            if(checkTitle(title) && checkSummary(summary)){
+                var json = {};
+                json.title=title;
+                json.summary=summary;
+                json.content=content;
+                $.ajax({
+                    url:"/article/upLoadArticle",
+                    data:json,
+                    type:"post",
+                    async:true,
+                    success:function (data) {
+                        var resp = JSON.parse(data.trim());
+                        if(resp.statu==true){
+                            alert("上传成功！");
+                        }else{
+                            alert("上传失败！");
+                        }
+                    },
+                    error:function (data) {
+                        alert("发送错误，请稍后重试！")
+                    },
+                })
+            }else{
+                alert("您输入的标题过长或摘要过长！");
+            }
+        })
+        //************在此添加函数********
+    });
+</script>
+</html>

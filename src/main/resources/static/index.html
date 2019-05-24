@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>主页</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="MDB-Free_4.7.7/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="MDB-Free_4.7.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="MDB-Free_4.7.7/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="MDB-Free_4.7.7/css/style.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="offcanvas.css">-->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/mdb.min.js"></script>
+    <!--<script src="offcanvas.js"></script>-->
+
+</head>
+<body>
+<!--<nav class="navbar navbar-fixed-top navbar-inverse">-->
+    <!--<div class="container">-->
+        <!--<div class="navbar-header">-->
+            <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">-->
+                <!--<span class="sr-only">Toggle navigation</span>-->
+                <!--<span class="icon-bar"></span>-->
+                <!--<span class="icon-bar"></span>-->
+                <!--<span class="icon-bar"></span>-->
+            <!--</button>-->
+            <!--<a class="navbar-brand" href="#">MD</a>-->
+        <!--</div>-->
+        <!--<div id="navbar" class="collapse navbar-collapse">-->
+            <!--<ul class="nav navbar-nav">-->
+                <!--<li class="active"><a href="#">主页</a></li>-->
+                <!--<li><a href="#about">搜索</a></li>-->
+                <!--<li><a href="#contact">关于</a></li>-->
+            <!--</ul>-->
+            <!--<ul class="nav navbar-nav pull-right">-->
+                <!--<li role="presentation"><a href="#" id="user">wwb</a></li>-->
+            <!--</ul>-->
+        <!--</div>&lt;!&ndash; /.nav-collapse &ndash;&gt;-->
+    <!--</div>&lt;!&ndash; /.container &ndash;&gt;-->
+<!--</nav>&lt;!&ndash; /.navbar &ndash;&gt;-->
+<!--Navbar -->
+<nav class="mb-1 navbar navbar-expand-lg navbar-dark orange lighten-1">
+    <a class="navbar-brand" href="#">MD</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+            aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">主页
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">搜索</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">关于</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+            <li class="nav-item avatar" id="user">
+
+            </li>
+        </ul>
+    </div>
+</nav>
+<!--/.Navbar -->
+
+<div class="container">
+
+    <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-xs-12 col-sm-9">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h2 class="display-4">您好！</h2>
+                    <p class="lead">欢迎来到MD！在这里您可以尽情的发表文章，写出自己的想法，同时您也可以从别人发表的文章中学习！</p>
+                </div>
+            </div>
+            <!--<div class="row">-->
+                <!--<table id="newTop" class="table">-->
+
+                <!--</table>-->
+            <!--</div>&lt;!&ndash;/row&ndash;&gt;-->
+            <div class="col-md-12 column" id="newTop">
+                <div class="jumbotron">
+                    <h2 class="display-4">Hello, world!</h2>
+                    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                </div>
+            </div>
+        </div><!--/.col-xs-12.col-sm-9-->
+
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+            <p>热搜前10：</p>
+            <div class="list-group" id="hotTop">
+                <a href="#" class="list-group-item active">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+            </div>
+        </div><!--/.sidebar-offcanvas-->
+    </div><!--/row-->
+
+    <hr>
+</div><!--/.container-->
+<!--Modal: Login / Register Form-->
+<div class="modal fade" id="modalLRForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Modal cascading tabs-->
+            <div class="modal-c-tabs">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs md-tabs tabs-2 light-blue darken-3" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#panel7" role="tab"><i class="fas fa-user mr-1"></i>
+                            Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#panel8" role="tab"><i class="fas fa-user-plus mr-1"></i>
+                            Register</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panels -->
+                <div class="tab-content">
+                    <!--Panel 7-->
+                    <div class="tab-pane fade in show active" id="panel7" role="tabpanel">
+
+                        <!--Body-->
+                        <div class="modal-body mb-1">
+                            <div class="md-form form-sm mb-5">
+                                <i class="fas fa-envelope prefix"></i>
+                                <input type="text" id="modalLRInput10" class="form-control form-control-sm validate" placeholder="Your user name">
+                            </div>
+
+                            <div class="md-form form-sm mb-4">
+                                <i class="fas fa-lock prefix"></i>
+                                <input type="password" id="modalLRInput11" class="form-control form-control-sm validate" placeholder="Your password">
+                            </div>
+                            <div class="text-center mt-2">
+                                <button class="btn btn-info" id="loginBtn">Log in <i class="fas fa-sign-in ml-1"></i></button>
+                            </div>
+                        </div>
+                        <!--Footer-->
+                        <div class="modal-footer">
+                            <div class="options text-center text-md-right mt-1">
+                                <!--<p>Not a member? <a href="#" class="blue-text">Sign Up</a></p>
+                                <p>Forgot <a href="#" class="blue-text">Password?</a></p>-->
+                            </div>
+                            <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                    <!--/.Panel 7-->
+
+                    <!--Panel 8-->
+                    <div class="tab-pane fade" id="panel8" role="tabpanel">
+
+                        <!--Body-->
+                        <div class="modal-body">
+                            <div class="md-form form-sm mb-5">
+                                <i class="fas fa-envelope prefix"></i>
+                                <input type="text" id="modalLRInput12" class="form-control form-control-sm validate" placeholder="Your user name">
+                                <p id="RegisterUserName" style="font-size: xx-small"></p>
+                            </div>
+
+                            <div class="md-form form-sm mb-5">
+                                <i class="fas fa-lock prefix"></i>
+                                <input type="password" id="modalLRInput13" class="form-control form-control-sm validate" placeholder="Your password">
+                                <p id="pwd" style="font-size: xx-small"></p>
+                            </div>
+
+                            <div class="md-form form-sm mb-4">
+                                <i class="fas fa-lock prefix"></i>
+                                <input type="password" id="modalLRInput14" class="form-control form-control-sm validate" placeholder="Repeat password">
+                                <p id="repeatPwd" style="font-size: xx-small"></p>
+                            </div>
+
+                            <div class="text-center form-sm mt-2">
+                                <button class="btn btn-info" id="registerBtn">Sign up <i class="fas fa-sign-in ml-1"></i></button>
+                            </div>
+
+                        </div>
+                        <!--Footer-->
+                        <div class="modal-footer">
+                            <div class="options text-right">
+                                <!--<p class="pt-1">Already have an account? <a href="#" class="blue-text">Log In</a></p>-->
+                            </div>
+                            <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!--/.Panel 8-->
+                </div>
+
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--Modal: Login / Register Form-->
+
+<script>
+    var titleSize=50;
+    var summarySize=150;
+    var padding="";
+    var br=3;
+    function signOut(){
+
+    }
+    $(document).ready(function () {
+        //****************获取最新
+        $.ajax({
+            url:"/article/TopNew",
+            type:"post",
+            async:true,
+            success:function (data) {
+                console.log(data);
+                var resp=JSON.parse(data.trim());
+                $("#newTop").empty();
+                for(var i=0;i<resp.length;i++){
+                    $("#newTop").append(" <div class=\"jumbotron\">\n" +
+                        "          <h2 class=\"display-4\">"+resp[i].article_title+"</h2>\n" +
+                        "          <p class=\"lead\">"+resp[i].article_short+"</p>\n" +
+                        "          <a class=\"btn btn-primary btn-lg\" href=\"/Article.html?articleId="+resp[i].article_id+"\" role=\"button\">Learn more</a>\n" +
+                        "        </div>");
+                }
+                // var num=3;
+                // var line=parseInt(resp.length/num);
+                // var mod=parseInt(resp.length%num);
+                // var cur=0;
+                // for(var i=0;i<line;i++){
+                //     $("#newTop").append("<tr>");
+                //     for(var j=0;j<num;j++){
+                //         console.log(line);
+                //         $("#newTop").append("<td>");
+                //         $("#newTop").append("<h2>"+resp[cur+j].article_title+"</h2><p>"+resp[cur+j].article_short+"</p>");
+                //         $("#newTop").append("</td>");
+                //     }
+                //     $("#newTop").append("<tr>");
+                //     for(var j=0;j<num;j++){
+                //         $("#newTop").append("<td>");
+                //         $("#newTop").append("<p><a class=\"btn btn-default\" href=\"/Article.html?articleId="+resp[cur+j].article_id+"\" role=\"button\">View details &raquo;</a></p>");
+                //         $("#newTop").append("</td>");
+                //     }
+                //     $("#newTop").append("</tr>");
+                //     $("#newTop").append("</tr>");
+                //     cur+=num;
+                // }
+                // $("#newTop").append("<tr>");
+                // for(var j=0;j<mod;j++){
+                //     $("#newTop").append("<td>");
+                //     $("#newTop").append("<h2>"+resp[cur+j].article_title+"</h2><p>"+resp[cur+j].article_short+"</p>");
+                //     $("#newTop").append("</td>");
+                // }
+                // $("#newTop").append("<tr>");
+                // for(var j=0;j<mod;j++){
+                //     $("#newTop").append("<td>");
+                //     $("#newTop").append("<p><a class=\"btn btn-default\" href=\"/Article.html?articleId="+resp[cur+j].article_id+"\" role=\"button\">View details &raquo;</a></p>");
+                //     $("#newTop").append("</td>");
+                // }
+                // $("#newTop").append("</tr>");
+                // $("#newTop").append("</tr>");
+                // console.log($("#newTop").html());
+                // for(var i=0;i<resp.length;i++){
+                //     var titleLen=titleSize-resp[i].article_title.length;
+                //     for(var j=0;j<titleLen;j++){
+                //         console.log("title yes into");
+                //         resp[i].article_title+=padding;
+                //     }
+                //     var summaryLen=summarySize-resp[i].article_short.length;
+                //     for(var j=0;j<summaryLen;j++){
+                //         console.log("short yes into "+summaryLen);
+                //         resp[i].article_short+=padding;
+                //     }
+                //     console.log("padding: "+padding);
+                //     $("#newTop").append("<div class=\"col-xs-6 col-lg-4\">\n" +
+                //         "                    <h2>"+resp[i].article_title+"</h2>\n" +
+                //         "                    <p>"+resp[i].article_short+"</p>\n" +
+                //         "                    <p><a class=\"btn btn-default\" href=\"/Article.html?articleId="+resp[i].article_id+"\" role=\"button\">View details &raquo;</a></p>\n" +
+                //         "                </div>");
+                // }
+                // console.log($("#newTop").html());
+            },
+            error:function (data) {
+                alert("获取最新数据失败！ "+data);
+            }
+        });
+      //******************获取最热
+        $.ajax({
+            url:"/article/TopHot",
+            type:"post",
+            async:true,
+            success:function (data) {
+                console.log(data);
+                var resp=JSON.parse(data);
+                $("#hotTop").empty();
+                for(var i=0;i<resp.length;i++){
+                    if(i==0){
+                        $("#hotTop").append("<a href=\"/Article.html?articleId="+resp[i].article_id+"\" class=\"list-group-item active\">"+resp[i].article_title+"</a>");
+                    }else{
+                        $("#hotTop").append("<a href=\"/Article.html?articleId="+resp[i].article_id+"\" class=\"list-group-item\">"+resp[i].article_title+"</a>")
+                    }
+                }
+            },
+            error:function (data) {
+                alert("获取最热数据失败！ "+data);
+            }
+        });
+
+        $.ajax({
+           url:"/user/getUser",
+           type:"get",
+           async:true,
+           success:function (data) {
+               var resp=JSON.parse(data);
+               if(resp.statu==false){
+                   $("#user").append("<a class=\"nav-link p-0\" data-toggle=\"modal\" data-target=\"#modalLRForm\">\n" +
+                       "                    登录/注册\n" +
+                       "                </a>");
+               }else{
+                   $("#user").attr('class','nav-item dropdown');
+                   //$("#user").text(resp.userName);
+                   $("#user").append("<a class=\"nav-link dropdown-toggle\" id=\"navbarDropdownMenuLink\" data-toggle=\"dropdown\"\n" +
+                       "                   aria-haspopup=\"true\" aria-expanded=\"false\" >"+resp.userName+"</a><div class=\"dropdown-menu dropdown-primary\" aria-labelledby=\"navbarDropdownMenuLink\">\n" +
+                       "                    <a class=\"dropdown-item\" href=\"userspace.html?name="+resp.userName+"\">信息管理</a>\n" +
+                       "                    <a class=\"dropdown-item\" href=\"javascript:void(0);\" onclick=\"signOut()\">登出</a>\n" +
+                       "                </div>");
+
+               }
+           } ,
+            error:function (data) {
+
+            }
+        });
+        $("#modalLRInput13").change(function () {
+            var content=$("#modalLRInput13").val();
+            console.log("yes into");
+            $("#pwd").empty();
+            if(content.length<6){
+                $("#pwd").text("密码长度不能小于6位！");
+            }
+        });
+        $("#modalLRInput14").change(function () {
+            var content=$("#modalLRInput13").val();
+            var cont=$("#modalLRInput14").val();
+            $("#repeatPwd").empty();
+            if(cont!=content){
+                $("#repeatPwd").text("密码与验证密码不一致！");
+            }
+        });
+        $("#modalLRInput12").change(function () {
+            console.log("into 13");
+            $("#RegisterUserName").empty();
+            $.post("/user/validateUserName",{
+                userName:$("#modalLRInput12").val()
+            },function (data,status) {
+                console.log("into"+data);
+                if(status.trim()=="success"){
+                    var resp=JSON.parse(data.trim());
+                    if(resp.statu==false){
+                        $("#RegisterUserName").text("该用户名已被使用！");
+                    }
+                }else{
+                    alert("用户名查询错误！");
+                }
+            });
+        });
+        $("#loginBtn").click(function () {
+           $.post("/user/login",{
+               userName:$("#modalLRInput10").val(),
+               passWord:$("#modalLRInput11").val()
+           },function (data,statu) {
+                if(statu.trim()=='success'){
+                    var resp=JSON.parse(data);
+                    if(resp.statu==true){
+                        window.location.reload();
+                    }else{
+                        alert("请检查用户名或密码是否正确！");
+                    }
+                }else{
+                    alert("登录失败");
+                }
+           })
+        });
+        $("#registerBtn").click(function () {
+            $.post("/user/register",{
+                userName:$("#modalLRInput12").val(),
+                passWord:$("#modalLRInput13").val()
+            },function (data,statu) {
+                if(statu=='success'){
+                    var resp=JSON.parse(data);
+                    if(resp.statu==true){
+                        window.location.reload();
+                    }else{
+                        alert("注册失败!");
+                    }
+                }else{
+                    alert("注册错误！");
+                }
+            });
+        });
+        //****************在此添加新的函数************
+    })
+</script>
+</body>
+</html>
