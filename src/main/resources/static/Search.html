@@ -40,14 +40,11 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">关于</a>
+                <a class="nav-link" href="about.html">关于</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto nav-flex-icons">
-            <li class="nav-item avatar">
-                <a class="nav-link p-0" href="#">
-                    登录/注册
-                </a>
+            <li class="nav-item avatar" id="user">
             </li>
         </ul>
     </div>
@@ -93,7 +90,103 @@
         </div>
 <!--/row-->
 </div>
+<div class="modal fade" id="modalLRForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
 
+            <!--Modal cascading tabs-->
+            <div class="modal-c-tabs">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs md-tabs tabs-2 light-blue darken-3" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#panel7" role="tab"><i class="fas fa-user mr-1"></i>
+                            Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#panel8" role="tab"><i class="fas fa-user-plus mr-1"></i>
+                            Register</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panels -->
+                <div class="tab-content">
+                    <!--Panel 7-->
+                    <div class="tab-pane fade in show active" id="panel7" role="tabpanel">
+
+                        <!--Body-->
+                        <div class="modal-body mb-1">
+                            <div class="md-form form-sm mb-5">
+                                <i class="fas fa-envelope prefix"></i>
+                                <input type="text" id="modalLRInput10" class="form-control form-control-sm validate" placeholder="Your user name">
+                            </div>
+
+                            <div class="md-form form-sm mb-4">
+                                <i class="fas fa-lock prefix"></i>
+                                <input type="password" id="modalLRInput11" class="form-control form-control-sm validate" placeholder="Your password">
+                            </div>
+                            <div class="text-center mt-2">
+                                <button class="btn btn-info" id="loginBtn">Log in <i class="fas fa-sign-in ml-1"></i></button>
+                            </div>
+                        </div>
+                        <!--Footer-->
+                        <div class="modal-footer">
+                            <div class="options text-center text-md-right mt-1">
+                                <!--<p>Not a member? <a href="#" class="blue-text">Sign Up</a></p>
+                                <p>Forgot <a href="#" class="blue-text">Password?</a></p>-->
+                            </div>
+                            <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                    <!--/.Panel 7-->
+
+                    <!--Panel 8-->
+                    <div class="tab-pane fade" id="panel8" role="tabpanel">
+
+                        <!--Body-->
+                        <div class="modal-body">
+                            <div class="md-form form-sm mb-5">
+                                <i class="fas fa-envelope prefix"></i>
+                                <input type="text" id="modalLRInput12" class="form-control form-control-sm validate" placeholder="Your user name">
+                                <p id="RegisterUserName" style="font-size: xx-small"></p>
+                            </div>
+
+                            <div class="md-form form-sm mb-5">
+                                <i class="fas fa-lock prefix"></i>
+                                <input type="password" id="modalLRInput13" class="form-control form-control-sm validate" placeholder="Your password">
+                                <p id="pwd" style="font-size: xx-small"></p>
+                            </div>
+
+                            <div class="md-form form-sm mb-4">
+                                <i class="fas fa-lock prefix"></i>
+                                <input type="password" id="modalLRInput14" class="form-control form-control-sm validate" placeholder="Repeat password">
+                                <p id="repeatPwd" style="font-size: xx-small"></p>
+                            </div>
+
+                            <div class="text-center form-sm mt-2">
+                                <button class="btn btn-info" id="registerBtn">Sign up <i class="fas fa-sign-in ml-1"></i></button>
+                            </div>
+
+                        </div>
+                        <!--Footer-->
+                        <div class="modal-footer">
+                            <div class="options text-right">
+                                <!--<p class="pt-1">Already have an account? <a href="#" class="blue-text">Log In</a></p>-->
+                            </div>
+                            <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!--/.Panel 8-->
+                </div>
+
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--Modal: Login / Register Form-->
 <script>
     $.ajax({
         url:"/article/TopHot",
@@ -116,6 +209,31 @@
         }
     });
     $(document).ready(function () {
+        $.ajax({
+            url:"/user/getUser",
+            type:"get",
+            async:true,
+            success:function (data) {
+                var resp=JSON.parse(data);
+                if(resp.statu==false){
+                    $("#user").append("<a class=\"nav-link p-0\" data-toggle=\"modal\" data-target=\"#modalLRForm\">\n" +
+                        "                    登录/注册\n" +
+                        "                </a>");
+                }else{
+                    $("#user").attr('class','nav-item dropdown');
+                    //$("#user").text(resp.userName);
+                    $("#user").append("<a class=\"nav-link dropdown-toggle\" id=\"navbarDropdownMenuLink\" data-toggle=\"dropdown\"\n" +
+                        "                   aria-haspopup=\"true\" aria-expanded=\"false\" >"+resp.userName+"</a><div class=\"dropdown-menu dropdown-primary\" aria-labelledby=\"navbarDropdownMenuLink\">\n" +
+                        "                    <a class=\"dropdown-item\" href=\"userspace.html?name="+resp.userName+"\">信息管理</a>\n" +
+                        "                    <a class=\"dropdown-item\" href=\"javascript:void(0);\" onclick=\"signOut()\">登出</a>\n" +
+                        "                </div>");
+
+                }
+            } ,
+            error:function (data) {
+
+            }
+        });
         $("#keyWord").bsSuggest({
             emptyTip:'未检索到匹配的数据',
             allowNoKeyword:false,
@@ -166,6 +284,80 @@
                 }
             });
         })
+        $("#modalLRInput13").change(function () {
+            var content=$("#modalLRInput13").val();
+            console.log("yes into");
+            $("#pwd").empty();
+            if(content.length<6){
+                $("#pwd").text("密码长度不能小于6位！");
+            }
+        });
+        $("#modalLRInput14").change(function () {
+            var content=$("#modalLRInput13").val();
+            var cont=$("#modalLRInput14").val();
+            $("#repeatPwd").empty();
+            if(cont!=content){
+                $("#repeatPwd").text("密码与验证密码不一致！");
+            }
+        });
+        $("#modalLRInput12").change(function () {
+            console.log("into 13");
+            $("#RegisterUserName").empty();
+            $.post("/user/validateUserName",{
+                userName:$("#modalLRInput12").val()
+            },function (data,status) {
+                console.log("into"+data);
+                if(status.trim()=="success"){
+                    var resp=JSON.parse(data.trim());
+                    if(resp.statu==false){
+                        $("#RegisterUserName").text("该用户名已被使用！");
+                    }
+                }else{
+                    alert("用户名查询错误！");
+                }
+            });
+        });
+        $("#loginBtn").click(function () {
+            $.post("/user/login",{
+                userName:$("#modalLRInput10").val(),
+                passWord:$("#modalLRInput11").val()
+            },function (data,statu) {
+                if(statu.trim()=='success'){
+                    var resp=JSON.parse(data);
+                    if(resp.statu==true){
+                        window.location.reload();
+                    }else{
+                        alert("请检查用户名或密码是否正确！");
+                    }
+                }else{
+                    alert("登录失败");
+                }
+            })
+        });
+        $("#registerBtn").click(function () {
+            var password=$("#modalLRInput13").val();
+            var repeatPassWord=$("#modalLRInput14").val();
+            var userName=$("#modalLRInput12").val();
+            if(userName.length>0 && password.length>=6 && password==repeatPassWord){
+                $.post("/user/register",{
+                    userName:$("#modalLRInput12").val(),
+                    passWord:$("#modalLRInput13").val()
+                },function (data,statu) {
+                    if(statu=='success'){
+                        var resp=JSON.parse(data);
+                        if(resp.statu==true){
+                            window.location.reload();
+                        }else{
+                            alert("注册失败!");
+                        }
+                    }else{
+                        alert("注册错误！");
+                    }
+                });
+            }else{
+                alert("密码没有大于5位或密码与验证密码不一致！");
+            }
+        });
         //*****************在此添加新的函数*******
     });
 </script>
