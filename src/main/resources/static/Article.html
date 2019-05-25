@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>文章显示页面</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
@@ -27,7 +28,7 @@
         <p class="lead blog-description" id="summary"></p>
     </div>
  <div class="blog-post">
-     <p >written by <label id="author"></label></p>
+     <p>written by <a id="author"></a></p>
      <hr>
      <div id="content">
          
@@ -102,16 +103,16 @@
             success:function (data) {
                 var resp=JSON.parse(data.trim());
                 if(resp.statu==true){
-                    $("#user").attr('href','WriteArticle.html');
+                    $("#user").attr('href','userspace.html?name='+resp.userName);
                     $("#user").html(resp.userName);
                 }else{
-                    $("#user").attr('href','login.html');
-                    $("#user").html("登录/注册");
+                    $("#user").attr('href','index.html');
+                    $("#user").html("返回主页");
                 }
             },
             error:function (data) {
-                $("#user").attr('href','login.html');
-                $("#user").html("登录/注册");
+                $("#user").attr('href','index.html');
+                $("#user").html("返回主页");
             }
         });
         $.post("/article/getArticle",{
@@ -121,9 +122,11 @@
                    var article=resp.article;
                    if(resp.statu==true){
                        $("#title").html(article.article_title);
+                       //$("#author").append("<a href=\'userspace.html?name="+article.user_name+"\'></a>");
                        $("#author").html(article.user_name);
+                       $("#author").attr("href","userspace.html?name="+article.user_name);
                        $("#summary").html(article.article_short);
-                       console.log(article.article_like);
+                       console.log(article.user_name);
                        $("#likeNum").html(article.article_like);
                        $("#content").html(marked(article.article_content));
                    }else{

@@ -54,4 +54,19 @@ public interface ArticleDao {
      */
     @Select("select * from table_article order by article_id desc limit #{index},#{psize}")
     List<MysqlArticle> topNew(@Param("index")Integer index,@Param("psize")Integer psize);
+
+    /**
+     * 根据作者名来获取文章列表
+     * @param userName
+     * @return
+     */
+    @Select("select * from table_article where user_name=#{user_name}")
+    List<MysqlArticle> getArticleByAuthorName(@Param("user_name")String userName);
+
+    /**
+     * 根据文章ID来删除文章
+     * @param articleId
+     */
+    @Delete("delete from table_article where article_id=#{articleId}")
+    void deleteArticle(@Param("articleId")String articleId);
 }

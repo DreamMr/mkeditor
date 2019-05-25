@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <title>搜索页面</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="MDB-Free_4.7.7/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="MDB-Free_4.7.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="MDB-Free_4.7.7/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="MDB-Free_4.7.7/css/style.css" rel="stylesheet">
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/mdb.min.js"></script>
+    <script type="text/javascript" src="bootstrap-suggest/bootstrap-suggest.js"></script>
+</head>
+<body>
+<nav class="mb-1 navbar navbar-expand-lg navbar-dark orange lighten-1">
+    <a class="navbar-brand" href="#">MD</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+            aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">主页
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">搜索
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">关于</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+            <li class="nav-item avatar">
+                <a class="nav-link p-0" href="#">
+                    登录/注册
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!--/.Navbar -->
+<!--/.Container-->
+<div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div class="row clearfix">
+                    <div class="col-md-8 column">
+                        <form class="form-inline md-form mr-auto mb-4">
+                            <div class="input-group-btn">
+                                <input class="form-control mr-sm-2" style="width: 60%" type="text" placeholder="题目/文章内容" aria-label="Search" id="keyWord">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                </ul>
+                            </div>
+                            <button class="btn aqua-gradient btn-rounded btn-sm my-0" id="searchBtn" type="button">Search</button>
+                        </form>
+                    </div>
+                    <div class="col-md-8 column" id="content">
+                    </div>
+                    <div class="col-md-4 column" id="sidebar">
+                        <p>热搜前10：</p>
+                        <div class="list-group" id="hotTop">
+                            <a href="#" class="list-group-item active">Link</a>
+                            <a href="#" class="list-group-item">Link</a>
+                            <a href="#" class="list-group-item">Link</a>
+                            <a href="#" class="list-group-item">Link</a>
+                            <a href="#" class="list-group-item">Link</a>
+                            <a href="#" class="list-group-item">Link</a>
+                            <a href="#" class="list-group-item">Link</a>
+                            <a href="#" class="list-group-item">Link</a>
+                            <a href="#" class="list-group-item">Link</a>
+                            <a href="#" class="list-group-item">Link</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--/row-->
+</div>
+
+<script>
+    $.ajax({
+        url:"/article/TopHot",
+        type:"post",
+        async:true,
+        success:function (data) {
+            console.log(data);
+            var resp=JSON.parse(data);
+            $("#hotTop").empty();
+            for(var i=0;i<resp.length;i++){
+                if(i==0){
+                    $("#hotTop").append("<a href=\"/Article.html?articleId="+resp[i].article_id+"\" class=\"list-group-item active\">"+resp[i].article_title+"</a>");
+                }else{
+                    $("#hotTop").append("<a href=\"/Article.html?articleId="+resp[i].article_id+"\" class=\"list-group-item\">"+resp[i].article_title+"</a>")
+                }
+            }
+        },
+        error:function (data) {
+            alert("获取最热数据失败！ "+data);
+        }
+    });
+    $(document).ready(function () {
+        $("#keyWord").bsSuggest({
+            emptyTip:'未检索到匹配的数据',
+            allowNoKeyword:false,
+            multiWord:true,
+            separator:' ',
+            getDataMethod:"url",
+            showBtn: false,
+            url:"/article/SearchArticle",
+            fnProcessData: function (json){
+                var result=json[0];
+                var data={value:[]};
+                for(var i=0;i<json.length;i++){
+                    data.value.push({word: json[i].article_title});
+                }
+                console.log(data);
+                return data;
+            }
+        }).on('onDataRequestSuccess', function (e, result) {
+            console.log('onDataRequestSuccess: ', result);
+        }).on('onSetSelectValue', function (e, keyword, data) {
+            console.log('onSetSelectValue: ', keyword, data);
+        }).on('onUnsetSelectValue', function () {
+            console.log("onUnsetSelectValue");
+        });
+        $("#searchBtn").click(function () {
+            var searchKey=$("#keyWord").val();
+            var json={};
+            json.searchKey=searchKey;
+            console.log(searchKey);
+            $.ajax({
+                url:"/article/SearchArticleWithSummary",
+                type:"post",
+                data:json,
+                async:true,
+                success:function (data) {
+                    var resp=JSON.parse(data);
+                    $("#content").empty();
+                   for(var i=0;i<resp.length;i++){
+                       $("#content").append(" <div class=\"jumbotron\">\n" +
+                           "          <h2 class=\"display-4\">"+resp[i].article_title+"</h2>\n" +
+                           "          <p class=\"lead\">"+resp[i].article_short+"</p>\n" +
+                           "          <a class=\"btn btn-primary btn-lg\" href=\"/Article.html?articleId="+resp[i].article_id+"\" role=\"button\">Learn more</a>\n" +
+                           "        </div>");
+                   }
+                },
+                error:function (data) {
+                    alert("获取数据失败！");
+                }
+            });
+        })
+        //*****************在此添加新的函数*******
+    });
+</script>
+</body>
+</html>

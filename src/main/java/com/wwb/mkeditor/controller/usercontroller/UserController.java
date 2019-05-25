@@ -64,4 +64,9 @@ public class UserController {
         }
         return obj.toString();
     }
+    @RequestMapping(value = "/SignOut",method = RequestMethod.GET)
+    public void signOut(HttpSession session){
+        session.removeAttribute("userName");
+        return;
+    }
 }

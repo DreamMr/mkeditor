@@ -35,6 +35,16 @@ public class RedisStringDao implements RedisDao {
         stringRedisTemplate.opsForValue().set(key,value,timeout,timeUnit);
     }
 
+    synchronized public boolean deleteKey(String key){
+       try{
+           if(hasKey(key)){
+               stringRedisTemplate.delete(key);
+           }
+           return true;
+       }catch (Exception e){
+           return false;
+       }
+    }
     /**
      * 获取值
      * @param key

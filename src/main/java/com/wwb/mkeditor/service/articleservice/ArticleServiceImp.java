@@ -12,6 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -28,6 +30,8 @@ public class ArticleServiceImp implements ArticleService{
     RedisSetDao redisSetDao;
     @Autowired
     ArticleSearch articleSearch;
+    @Autowired
+    ArticleDelete articleDelete;
     private static final String hotKey="hotId";
     private static final String newKey="newId";
     private static final Integer index=0;
@@ -152,5 +156,19 @@ public class ArticleServiceImp implements ArticleService{
     public String searchArticleWithSummary(String keyWord) {
         String result=articleSearch.searchArticleEntityWithSummary(keyWord);
         return result;
+    }
+
+    @Override
+    public List<MysqlArticle> getArticleListByAuthorName(String userName) {
+        return articleDao.getArticleByAuthorName(userName);
+    }
+
+    @Override
+    public boolean deleteArticle(String articleId) {
+        boolean flag=articleDelete.deleteDataBaseArticle(articleId);
+        if(flag){
+            articleDelete.deleteFromRedis(articleId,hotKey,newKey);
+        }
+        return flag;
     }
 }

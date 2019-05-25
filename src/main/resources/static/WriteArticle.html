@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
     <title>编写文章页面</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
@@ -23,10 +24,10 @@
     <div class="header clearfix">
         <nav>
             <ul class="nav nav-pills pull-right">
-                <li role="presentation"><a href="#">wwb</a></li>
+                <li role="presentation" id="user"></li>
             </ul>
         </nav>
-        <h1 class="text-muted"><a href="#" id="returnIndex">MD</a></h1>
+        <h1 class="text-muted"><a href="index.html" id="returnIndex">MD</a></h1>
     </div>
     <br><br>
     <div>
@@ -107,6 +108,23 @@
     })
     //****************功能函数******************
     jQuery(document).ready(function($) {
+        $.ajax({
+           url:"/user/getUser",
+            type:"get",
+            async:true,
+            success:function (data) {
+                var resp=JSON.parse(data);
+                console.log(data);
+                if(resp.statu==true){
+                    $("#user").append("<a href=\"userspace.html?name="+resp.userName+"\">"+resp.userName+"</a>");
+                }else{
+                    alert("获取用户信息失败！");
+                }
+            },
+            error:function (data) {
+                alert("获取用户信息失败！");
+            }
+        });
         $('#title').bind('input propertychange','textarea',function(){
              console.log("yes into");
         });
@@ -136,6 +154,7 @@
                         var resp = JSON.parse(data.trim());
                         if(resp.statu==true){
                             alert("上传成功！");
+                            window.location.href="index.html";
                         }else{
                             alert("上传失败！");
                         }

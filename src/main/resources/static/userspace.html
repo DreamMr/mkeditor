@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <title>用户个人中心</title>
+    <link rel="stylesheet" href="MDB-Free_4.7.7/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="MDB-Free_4.7.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="MDB-Free_4.7.7/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="MDB-Free_4.7.7/css/style.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="offcanvas.css">-->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/mdb.min.js"></script>
+    <!--<script src="offcanvas.js"></script>-->
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <!--用户信息-->
+        <div class="col-md-12 column">
+            <h3 style="font-family: 华文行楷"><label id="labelUserName"></label>的个人空间</h3>
+            <br>
+            <a href="index.html">返回主页</a>
+            <br>
+            <hr class="hr-dark">
+        </div>
+    </div>
+    <div class="row clearfix">
+        <!--文章表格-->
+        <div class="col-md-12 column">
+            <!-- Editable table -->
+            <div class="card">
+                <h3 class="card-header text-center font-weight-bold text-uppercase py-4">文章列表</h3>
+                <div class="card-body">
+                    <div id="table" class="table-editable">
+
+                        <table class="table table-bordered table-responsive-md table-striped text-center">
+                            <thead>
+                            <tr id="tableHead">
+
+                            </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Editable table -->
+        </div>
+    </div>
+</div>
+<script>
+    function getQueryString(name){
+        var reg = new RegExp("(^|&)"+name+"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null){
+            return decodeURIComponent(r[2]);
+        }
+        return '';
+    }
+    var userName=getQueryString("name");
+    //************表格 js***********
+    const $tableID = $('#table');
+    const $BTN = $('#export-btn');
+    const $EXPORT = $('#export');
+
+    const newTr = `
+ <tr class="hide">
+   <td class="pt-3-half" contenteditable="true">Example</td>
+   <td class="pt-3-half" contenteditable="true">Example</td>
+   <td class="pt-3-half" contenteditable="true">Example</td>
+   <td class="pt-3-half" contenteditable="true">Example</td>
+   <td class="pt-3-half" contenteditable="true">Example</td>
+   <td class="pt-3-half">
+     <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up" aria-hidden="true"></i></a></span>
+     <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i></a></span>
+   </td>
+   <td>
+     <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 waves-effect waves-light">Remove</button></span>
+   </td>
+ </tr>`;
+
+    $('.table-add').on('click', 'i', () => {
+
+        const $clone = $tableID.find('tbody tr').last().clone(true).removeClass('hide table-line');
+
+        if ($tableID.find('tbody tr').length === 0) {
+
+            $('tbody').append(newTr);
+        }
+
+        $tableID.find('table').append($clone);
+    });
+
+    $tableID.on('click', '.table-remove', function () {
+
+        $(this).parents('tr').detach();
+    });
+
+    $tableID.on('click', '.table-up', function () {
+
+        const $row = $(this).parents('tr');
+
+        if ($row.index() === 1) {
+            return;
+        }
+
+        $row.prev().before($row.get(0));
+    });
+
+    $tableID.on('click', '.table-down', function () {
+
+        const $row = $(this).parents('tr');
+        $row.next().after($row.get(0));
+    });
+
+    // A few jQuery helpers for exporting only
+    jQuery.fn.pop = [].pop;
+    jQuery.fn.shift = [].shift;
+
+    $BTN.on('click', () => {
+
+        const $rows = $tableID.find('tr:not(:hidden)');
+        const headers = [];
+        const data = [];
+
+        // Get the headers (add special header logic here)
+        $($rows.shift()).find('th:not(:empty)').each(function () {
+
+            headers.push($(this).text().toLowerCase());
+        });
+
+        // Turn all existing rows into a loopable array
+        $rows.each(function () {
+            const $td = $(this).find('td');
+            const h = {};
+
+            // Use the headers from earlier to name our hash keys
+            headers.forEach((header, i) => {
+
+                h[header] = $td.eq(i).text();
+            });
+
+            data.push(h);
+        });
+
+        // Output the result
+        $EXPORT.text(JSON.stringify(data));
+    });
+    //******************************
+    function deleteArticle(articleId){
+        console.log(articleId);
+        $.post("/article/DeleteArticle",{
+            articleId:articleId
+        },function (data,status) {
+            if(status.trim()=='success'){
+                var resp=JSON.parse(data);
+                if(resp.statu==false){
+                    alert("删除错误！");
+                    window.location.reload();
+                }
+            }else{
+                alert("连接错误");
+                window.location.reload();
+            }
+        })
+    }
+    $(document).ready(function () {
+        var jsonvar ={};
+        jsonvar.userName=userName;
+        $("#labelUserName").html(userName);
+        $.ajax({
+            url:"/userSpace/GetUserInfo",
+            data:jsonvar,
+            type:"post",
+            async:true,
+            success:function (data) {
+                var resp=JSON.parse(data);
+                console.log(data);
+                if(resp.statu==true){
+                    if(resp.isUser==true){/*如果是用户本人的用户空间*/
+                        $("#table").prepend("<span class=\"table-add float-right mb-3 mr-2\"><a href=\"WriteArticle.html\" class=\"text-success\">编写文章<i\n" +
+                            "              class=\"fas fa-plus fa-2x\" aria-hidden=\"true\"></i></a></span>");
+                        $("#tableHead").append("<th class=\"text-center\">文章标题</th>\n" +
+                            "                                <th class=\"text-center\">文章摘要</th>\n" +
+                            "                                <th class=\"text-center\">点赞数</th>\n" +
+                            "                                <th class=\"text-center\">评论数</th>\n" +
+                            "                                <th class=\"text-center\">查看全文</th>\n" +
+                            "                                <th class=\"text-center\">Remove</th>");
+                        for(var i=0;i<resp.articles.length;i++){
+                            $("#tableBody").append("<tr>\n" +
+                                "                                <td class=\"pt-3-half\" contenteditable=\"true\">"+resp.articles[i].article_title+"</td>\n" +
+                                "                                <td class=\"pt-3-half\" contenteditable=\"true\">"+resp.articles[i].article_short+"</td>\n" +
+                                "                                <td class=\"pt-3-half\" contenteditable=\"true\">"+resp.articles[i].article_like+"</td>\n" +
+                                "                                <td class=\"pt-3-half\" contenteditable=\"true\">"+resp.articles[i].article_comment+"</td>\n" +
+                                "                                <td>\n" +
+                                "              <span class=\"table\"><a type=\"button\"\n" +
+                                "                                                 class=\"btn btn-primary btn-rounded btn-sm my-0\" href=\"Article.html?articleId="+resp.articles[i].article_id+"\">点击查看</a></span>\n" +
+                                "                                </td>" +
+                                "                                <td>\n" +
+                                "              <span class=\"table-remove\"><button type=\"button\"\n" +
+                                "                                                 class=\"btn btn-danger btn-rounded btn-sm my-0\" onclick='deleteArticle(\""+resp.articles[i].article_id+"\")'>Remove</button></span>\n" +
+                                "                                </td>\n" +
+                                "                            </tr>");
+                        }
+                    }else{/*如果不是用户本人的用户空间*/
+                        $("#tableHead").append("<th class=\"text-center\">文章标题</th>\n" +
+                            "                                <th class=\"text-center\">文章摘要</th>\n" +
+                            "                                <th class=\"text-center\">点赞数</th>\n" +
+                            "                                <th class=\"text-center\">评论数</th>\n" +
+                            "                                <th class=\"text-center\">查看全文</th>");
+                        for(var i=0;i<resp.articles.length;i++){
+                            $("#tableBody").append("<tr>\n" +
+                                "                                <td class=\"pt-3-half\" contenteditable=\"true\">"+resp.articles[i].article_title+"</td>\n" +
+                                "                                <td class=\"pt-3-half\" contenteditable=\"true\">"+resp.articles[i].article_short+"</td>\n" +
+                                "                                <td class=\"pt-3-half\" contenteditable=\"true\">"+resp.articles[i].article_like+"</td>\n" +
+                                "                                <td class=\"pt-3-half\" contenteditable=\"true\">"+resp.articles[i].article_comment+"</td>\n" +
+                                "                                <td>\n" +
+                                "              <span class=\"table\"><a type=\"button\"\n" +
+                                "                                                 class=\"btn btn-primary btn-rounded btn-sm my-0\" href=\"Article.html?articleId="+resp.articles[i].article_id+"\">点击查看</a></span>\n" +
+                                "                                </td>\n" +
+                                "                            </tr>")
+                        }
+                    }
+                }else{
+                    alert("获取数据错误");
+                }
+            },
+            error:function (data) {
+                alert("获取数据错误");
+            }
+        });
+        //****************在此添加新的函数******************
+    })
+</script>
+</body>
+</html>

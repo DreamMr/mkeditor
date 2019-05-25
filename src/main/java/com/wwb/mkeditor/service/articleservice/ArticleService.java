@@ -1,8 +1,10 @@
 package com.wwb.mkeditor.service.articleservice;
 
 import com.wwb.mkeditor.entities.Article;
+import com.wwb.mkeditor.entities.mysqlentity.MysqlArticle;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -24,6 +26,13 @@ public interface ArticleService {
      * @return
      */
     Article getArticle(String articleId);
+
+    /**
+     * 根据作者名获取文章列表
+     * @param userName
+     * @return
+     */
+    List<MysqlArticle> getArticleListByAuthorName(String userName);
 
     /**
      * 文章点赞功能
@@ -55,4 +64,12 @@ public interface ArticleService {
      * @return
      */
     String searchArticleWithSummary(String keyWord);
+
+    /**
+     * 根据文章id来删除文章：MySQL、Elasticsearch、Redis
+     * @param articleId
+     * @return
+     */
+    boolean deleteArticle(String articleId);
+
 }

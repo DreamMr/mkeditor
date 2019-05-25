@@ -3,6 +3,7 @@ package com.wwb.mkeditor.controller.articlecontroller;
 import com.wwb.mkeditor.entities.Article;
 import com.wwb.mkeditor.service.articleservice.ArticleService;
 import org.apache.ibatis.annotations.Param;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,7 +56,6 @@ public class ArticleController {
     @RequestMapping(value = "/addLike",method = RequestMethod.POST)
     String addLike(@Param("articleId")String articleId,HttpSession session){
         String userName=(String)session.getAttribute("userName");
-        if(userName==null){userName="wwb";}
         JSONObject obj=new JSONObject();
         if(userName==null){
             obj.put("statu",false);
@@ -91,5 +91,12 @@ public class ArticleController {
         String json=articleService.searchArticleWithSummary(keyWord);
         System.out.println(json);
         return json;
+    }
+    @RequestMapping(value = "/DeleteArticle",method = RequestMethod.POST)
+    public String deleteArticle(@Param("articleId")String articleId){
+        boolean flag=articleService.deleteArticle(articleId);
+        JSONObject obj=new JSONObject();
+        obj.put("statu",flag);
+        return obj.toString();
     }
 }
