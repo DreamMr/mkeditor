@@ -32,6 +32,8 @@ public class ArticleServiceImp implements ArticleService{
     ArticleSearch articleSearch;
     @Autowired
     ArticleDelete articleDelete;
+    @Autowired
+    ArticleEditService articleEditService;
     private static final String hotKey="hotId";
     private static final String newKey="newId";
     private static final Integer index=0;
@@ -170,5 +172,11 @@ public class ArticleServiceImp implements ArticleService{
             articleDelete.deleteFromRedis(articleId,hotKey,newKey);
         }
         return flag;
+    }
+
+    @Override
+    public boolean editArticle(String articleId, String summary, String title, String content) {
+        boolean isSucceed=articleEditService.updateArticle(articleId,summary,title,content);
+        return isSucceed;
     }
 }

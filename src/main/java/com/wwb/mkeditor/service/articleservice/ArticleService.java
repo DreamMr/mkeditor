@@ -72,4 +72,13 @@ public interface ArticleService {
      */
     boolean deleteArticle(String articleId);
 
+    /**
+     * 根据文章ID来更新文章
+     * @param articleId
+     * @param summary
+     * @param title
+     * @param content
+     * @return
+     */
+    boolean editArticle(String articleId,String summary,String title,String content);
 }

@@ -69,4 +69,13 @@ public interface ArticleDao {
      */
     @Delete("delete from table_article where article_id=#{articleId}")
     void deleteArticle(@Param("articleId")String articleId);
+
+    /**
+     * 更新文章
+     * @param summary
+     * @param title
+     * @param articleId
+     */
+    @Update("update table_article set article_short=#{summary},article_title=#{title} where article_id=#{articleId}")
+    void updateArticle(@Param("summary")String summary,@Param("title")String title,@Param("articleId")String articleId);
 }

@@ -99,4 +99,12 @@ public class ArticleController {
         obj.put("statu",flag);
         return obj.toString();
     }
+
+    @RequestMapping(value = "/editArticle",method = RequestMethod.POST)
+    public String editArticle(@Param("articleId")String articleId,@Param("content")String content,@Param("title")String title,@Param("summary")String summary){
+        boolean flag=articleService.editArticle(articleId,summary,title,content);
+        JSONObject obj=new JSONObject();
+        obj.put("statu",flag);
+        return obj.toString();
+    }
 }
