@@ -49,7 +49,9 @@ public class ArticleDeleteImp implements ArticleDelete {
         return true;
     }
     private void inHotOrNew(String Id,String articleId){
-        JSONArray array=new JSONArray(redisSetDao.getValue(Id));
+        String json=redisSetDao.getValue(Id);
+        if(json==null){return;}
+        JSONArray array=new JSONArray(json);
         for(int i=0;i<array.length();i++){
             if(array.getJSONObject(i).getString("article_id").equals(articleId)){
                 deleteRedisHotOrNew(Id);

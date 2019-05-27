@@ -16,13 +16,14 @@ import java.util.Set;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MkeditorApplicationTests {
+    @Test
+    public void contextLoads() {
+    }
+    /*
     @Autowired
     ArticleSearch articleSearch;
     @Autowired
     ArticleDao articleDao;
-    @Test
-    public void contextLoads() {
-    }
     @Test
     public void updateArticle(){
         ElasticesarchArticle article=new ElasticesarchArticle();
@@ -37,4 +38,5 @@ public class MkeditorApplicationTests {
     public void updateArticleInMySQL(){
         articleDao.updateArticle("一道不知道什么的算法题","测试更新","a20190525170749c62476fe");
     }
+    */
 }

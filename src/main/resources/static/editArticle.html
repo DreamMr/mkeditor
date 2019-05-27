@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文章编辑页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="bootstrap-markdown/css/bootstrap-markdown-editor.css">
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap-markdown/js/bootstrap-markdown-editor.js"></script>
+    <script src="bootstrap-markdown/js/ace.js"></script>
+    <script src="bootstrap-markdown/js/marked.min.js"></script>
+    <style>
+        .mypre-scrollable {
+            max-height: 630px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation" id="user"></li>
+            </ul>
+        </nav>
+        <h1 class="text-muted"><a href="index.html" id="returnIndex">MD</a></h1>
+    </div>
+    <br><br>
+    <div>
+        <h3 style="font-family: 华文琥珀">文章标题(剩余<label id="titleLabel">20</label>字)</h3><br><br>
+        <input type="text" class="input-lg" id="title" style="font-size: xx-large;width: 70%;"/>
+    </div>
+    <hr>
+    <div>
+        <h3 style="font-family: 华文琥珀">文章摘要(剩余<label id="summaryLabel" >150</label>字)</h3>
+        <textarea class="text-primary input-sm" id="summary" style="width: 70%;resize:none"></textarea>
+    </div>
+    <hr>
+    <div>
+        <h3 style="font-family: 华文琥珀">文章内容</h3><br>
+        <div >
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="row clearfix">
+                        <div class="col-md-5 column">
+                            <textarea name="text" id="editor" style="width: 100%;height: 625px;font-size: 14px;resize: none">
+                            </textarea>
+                        </div>
+                        <div class="col-md-7 column">
+                            <div id="preview" class="mypre-scrollable" style="width: 100%;height: 1000px;overflow:auto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<table cellspacing="50px" style="table-layout: fixed">-->
+                <!--<tr>-->
+                <!--<td>-->
+                <!--<textarea name="text" id="editor">-->
+                <!--</textarea>-->
+                <!--</td>-->
+                <!--<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>-->
+                <!--<td>-->
+                <!--<div id="preview" class="pre-scrollable" style="width: 100%;height: 650px;overflow: auto">-->
+
+                <!--</div>-->
+                <!--</td>-->
+                <!--</tr>-->
+                <!--</table>-->
+            </div>
+        </div>
+        <br><br>
+        <div>
+            <button id="submmit" class="btn btn-primary btn-lg" style="margin-left: 42%">修改完成</button>
+        </div>
+        <br><br><br>
+    </div>
+</div>
+</body>
+<script>
+    function getQueryString(name){
+        var reg = new RegExp("(^|&)"+name+"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null){
+            return decodeURIComponent(r[2]);
+        }
+        return '';
+    }
+    //*************常量定义
+    var maxTitle=20;
+    var maxSummary=150;
+    var article_id=getQueryString('articleId');
+
+    //****************在此添加工具******
+    function checkTitle(title){
+        if(title.length>maxTitle){return false;}
+        else return true;
+    }
+    function checkSummary(summary){
+        console.log(summary.length);
+        if(summary.length>maxSummary){return false;}
+        else {return true;}
+    }
+    //**********************监听事件*************************
+    $("#title").bind('input propertychange','textarea',function () {
+        var len=$("#title").val().length;
+        console.log(len);
+        $("#titleLabel").html(maxTitle-len);
+    });
+    $("#summary").bind('input propertychange','textarea',function () {
+        var len=$("#summary").val().length;
+        $("#summaryLabel").html(maxSummary-len);
+    });
+    $("#editor").bind('input propertychange','textarea',function () {
+        var content=$("#editor").val();
+        $("#preview").html(marked(content));
+    })
+    //****************功能函数******************
+    jQuery(document).ready(function($) {
+        $.post("/article/getArticle",{
+            articleId:article_id
+        },function (data,status) {
+            console.log(data);
+            if(status.trim()=='success'){
+                var resp=JSON.parse(data);
+                if(resp.statu==true){
+                    $("#title").val(resp.article.article_title);
+                    $("#titleLabel").html(maxTitle-resp.article.article_title.length);
+                    $("#summary").val(resp.article.article_short);
+                    $("#summaryLabel").html(maxSummary-resp.article.article_short.length);
+                    $("#editor").val(resp.article.article_content);
+                    $("#preview").html(marked(resp.article.article_content));
+                }
+            }
+        });
+        $.ajax({
+            url:"/user/getUser",
+            type:"get",
+            async:true,
+            success:function (data) {
+                var resp=JSON.parse(data);
+                console.log(data);
+                if(resp.statu==true){
+                    $("#user").append("<a href=\"userspace.html?name="+resp.userName+"\">"+resp.userName+"</a>");
+                }else{
+                    alert("获取用户信息失败！");
+                }
+            },
+            error:function (data) {
+                alert("获取用户信息失败！");
+            }
+        });
+        $('#title').bind('input propertychange','textarea',function(){
+            console.log("yes into");
+        });
+        /*
+        $('#editor').markdownEditor({
+            onMyChange:function (content) {
+                console.log(content);
+                $("#preview").empty();
+                $("#preview").html(marked(content));
+            }
+        });
+        */
+        //***********************上传文章**************************
+        $("#submmit").click(function () {
+            var title = $("#title").val();
+            var summary = $("#summary").val();
+            var content = $("#editor").val();
+            if(checkTitle(title) && checkSummary(summary)){
+                var json = {};
+                json.title=title;
+                json.summary=summary;
+                json.content=content;
+                json.articleId=article_id;
+                $.ajax({
+                    url:"/article/editArticle",
+                    data:json,
+                    type:"post",
+                    async:true,
+                    success:function (data) {
+                        var resp = JSON.parse(data.trim());
+                        if(resp.statu==true){
+                            alert("修改成功！");
+                            window.location.href="index.html";
+                        }else{
+                            alert("上传失败！");
+                        }
+                    },
+                    error:function (data) {
+                        alert("发送错误，请稍后重试！")
+                    },
+                })
+            }else{
+                alert("您输入的标题过长或摘要过长！");
+            }
+        });
+        //************在此添加函数********
+    });
+</script>
+</body>
+</html>
