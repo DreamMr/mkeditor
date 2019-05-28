@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="MDB-Free_4.7.7/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="MDB-Free_4.7.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="MDB-Free_4.7.7/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="MDB-Free_4.7.7/css/style.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="offcanvas.css">-->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/mdb.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<!--Navbar -->
+<nav class="mb-1 navbar navbar-expand-lg navbar-dark orange lighten-1">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+            aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+            <li class="nav-item avatar">
+                <a class="nav-link p-0" href="#">
+                    wwb
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!--/.Navbar -->
+
+<script>
+    function getQueryString(name){
+        var reg = new RegExp("(^|&)"+name+"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null){
+            return decodeURIComponent(r[2]);
+        }
+        return '';
+    }
+    var articleId=getQueryString('articleId');
+    /**
+     * 点赞功能
+     */
+    function clickGood() {
+        console.log("good into");
+        $.post("/article/addLike", {
+            articleId: articleId
+        }, function (data, status) {
+            var resp=JSON.parse(data.trim());
+            if (status.trim() == 'success' && resp.statu==true) {
+                var last=parseInt($("#likeNum").html());
+                alert("点赞成功！");
+                $("#likeNum").html(last+1);
+            }else{
+                alert("点赞错误，可能是未登录或是已点过赞造成！");
+            }
+        });
+        //     $.ajax({
+        //         url:"/article/addLike",
+        //         type:"post",
+        //         data:articleId,
+        //         async:true,
+        //         success:function (data) {
+        //             var resp=JSON.parse(data);
+        //             if(resp.statu==true){
+        //                 var last=$("#likeNum").val();
+        //                 $("#likeNum").val(last+1);
+        //             }else{
+        //                 alert("您可能已经点过赞了！");
+        //             }
+        //         },
+        //         error:function (data) {
+        //             alert("点赞错误！");
+        //         }
+        //     });
+        // }
+    }
+    console.log(articleId);
+    $(document).ready(function () {
+        //**************获取用户信息
+        $.ajax({
+            url:"/user/getUser",
+            type:"get",
+            async:true,
+            success:function (data) {
+                var resp=JSON.parse(data.trim());
+                if(resp.statu==true){
+                    $("#user").attr('href','userspace.html?name='+resp.userName);
+                    $("#user").html(resp.userName);
+                }else{
+                    $("#user").attr('href','index.html');
+                    $("#user").html("返回主页");
+                }
+            },
+            error:function (data) {
+                $("#user").attr('href','index.html');
+                $("#user").html("返回主页");
+            }
+        });
+        $.post("/article/getArticle",{
+            articleId:articleId
+        },function (data,status) {
+            var resp=JSON.parse(data.trim());
+            var article=resp.article;
+            if(resp.statu==true){
+                $("#title").html(article.article_title);
+                //$("#author").append("<a href=\'userspace.html?name="+article.user_name+"\'></a>");
+                $("#author").html(article.user_name);
+                $("#author").attr("href","userspace.html?name="+article.user_name);
+                $("#summary").html(article.article_short);
+                console.log(article.user_name);
+                $("#likeNum").html(article.article_like);
+                $("#content").html(marked(article.article_content));
+            }else{
+                alert("文章加载失败，请稍后重试！");
+            }
+        });
+        // $.ajax({
+        //    url:"/article/getArticle",
+        //    data:articleId,
+        //    type:"post",
+        //    async:true,
+        //    success:function (data) {
+        //        var resp=JSON.parse(data.trim());
+        //        var article=resp.article;
+        //        if(resp.statu==true){
+        //            $("#title").html(article.title);
+        //            $("#author").html(article.author);
+        //            $("#summary").html(article.summary);
+        //            $("#content").html(marked(article.article));
+        //        }else{
+        //            alert("文章加载失败，请稍后重试！");
+        //        }
+        //    } ,
+        //     error:function (data) {
+        //         alert("文章加载失败，请稍后重试！");
+        //     }
+        // });
+
+        //**************************在此上添加函数***********
+    })
+</script>
+</body>
+</html>
