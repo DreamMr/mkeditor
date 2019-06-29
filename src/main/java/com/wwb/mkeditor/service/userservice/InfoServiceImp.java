@@ -21,7 +21,8 @@ public class InfoServiceImp implements InfoService{
     @Autowired
     InfoDao infoDao;
     private static String IMGPREFIX="i";
-    private static String PREFIXFILE="F:/javaLearning/java/mkeditor/src/main/resources/static/img/";
+    //private static String PREFIXFILE="F:/javaLearning/java/mkeditor/src/main/resources/static/img/";
+    private static String PREFIXFILE="/home/wwb/mkeditor/img/";
     @Override
     public boolean updateInfo(String userName, String address, String hobby, String img) {
         if(img==null || img.equals("")){

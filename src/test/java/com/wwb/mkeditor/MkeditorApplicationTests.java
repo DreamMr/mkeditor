@@ -25,11 +25,9 @@ import java.util.Set;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MkeditorApplicationTests {
-    @Autowired
-    ArticleDao articleDao;
     @Test
     public void contextLoads() {
-        System.out.println(Charset.defaultCharset());
+
     }
 
     /*
