@@ -6,7 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>主页</title>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="MDB-Free_4.7.7/css/all.css">
+    <!--<link rel="stylesheet" href="MDB-Free_4.7.7/css/all.css">-->
     <!-- Bootstrap core CSS -->
     <link href="MDB-Free_4.7.7/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
@@ -94,8 +94,7 @@
 
                 <!--</table>-->
             <!--</div>&lt;!&ndash;/row&ndash;&gt;-->
-            <div class="col-md-12 column" id="newTop">
-
+            <div id="newTop">
             </div>
         </div><!--/.col-xs-12.col-sm-9-->
 
@@ -232,11 +231,19 @@
                 var resp=JSON.parse(data.trim());
                 $("#newTop").empty();
                 for(var i=0;i<resp.length;i++){
+                    /*
                     $("#newTop").append(" <div class=\"jumbotron\">\n" +
                         "          <h2 class=\"display-4\">"+resp[i].article_title+"</h2>\n" +
                         "          <p class=\"lead\">"+resp[i].article_short+"</p>\n" +
                         "          <a class=\"btn btn-primary btn-lg\" href=\"/Article.html?articleId="+resp[i].article_id+"\" role=\"button\">Learn more</a>\n" +
                         "        </div>");
+                        */
+                    $("#newTop").append("<div class=\"jumbotron\">\n" +
+                        "  <h2 class=\"display-4\">"+resp[i].article_title+"</h2>\n" +
+                        "  <hr class=\"my-4\">\n" +
+                        "  <p>"+resp[i].article_short+"</p>\n" +
+                        "  <a class=\"btn btn-primary btn-lg\" href=\"/Article.html?articleId="+resp[i].article_id+"\" role=\"button\">Learn more</a>\n" +
+                        "</div>")
                 }
                 // var num=3;
                 // var line=parseInt(resp.length/num);

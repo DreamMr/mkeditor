@@ -221,7 +221,6 @@
                 plugin.val(editor.getSession().getValue());
 				defaults.onMyChange(editor.getSession().getValue());
             });
-
             editor.setHighlightActiveLine(false);
             editor.setShowPrintMargin(false);
             editor.renderer.setShowGutter(false);
@@ -375,7 +374,9 @@
             return editor.getSession().getValue();
         },
         setContent: function(str) {
+		  console.log("content:"+str);
           var editor = ace.edit(this.find('.md-editor')[0]);
+		  
           editor.setValue(str, 1);
         }
     };

@@ -78,4 +78,11 @@ public interface ArticleDao {
      */
     @Update("update table_article set article_short=#{summary},article_title=#{title} where article_id=#{articleId}")
     void updateArticle(@Param("summary")String summary,@Param("title")String title,@Param("articleId")String articleId);
+    /**
+     * 更新文章评论数
+     * @param articleId 文章Id
+     */
+    @Update({"call addComment(#{articleId,mode=IN,jdbcType=VARCHAR})"})
+    @Options(statementType = StatementType.CALLABLE)
+    void addArticleComment(@Param("articleId")String articleId);
 }

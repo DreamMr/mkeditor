@@ -69,16 +69,31 @@
     | ---------- | ----------------------- | ------------ | ------ | -------- | ---- |
     | 文章评论ID | article_comment_id      | char(23)     | 主键   | not null |      |
     | 文章ID     | article_id              | char(23)     | 外键   | not null |      |
-    | 点赞数     | article_comment_like    | int          | 否     | not null |      |
-    | 评论数     | article_comment_comment | int          | 否     | not null |      |
     | 内容       | comment_comment_content | varchar(100) | 否     | not null |      |
     | 昵称       | user_name               | varchar(20)  | 外键   | not null |      |
 
     
 
-  - 
+    
+
 - 日志
   我在5月14日删掉了bootstrap-markdown-editor.js最后的label插入图片和链接标签，但是好像没有效果
+
+  2019/5/29  我在修改用户个人中心头像、用户信息（userspace.html)
+
+  
+
+  2019/6/9 发现新问题：评论数没有进行统计
+
+  
+
+- 心得
+
+  1.MyBatis中注解的方式居然是根据函数名来设置id的也就是说同一个函数名会是同一个ID。
+
+
+
+
 
 
 

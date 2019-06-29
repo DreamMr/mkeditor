@@ -10,4 +10,10 @@ public class TimeStamp {
         String stamp=ft.format(now);
         return stamp;
     }
+    public static String getTime(){
+        Date now=new Date();
+        SimpleDateFormat ft=new SimpleDateFormat("yyyy/MM/dd");
+        String time=ft.format(now);
+        return time;
+    }
 }

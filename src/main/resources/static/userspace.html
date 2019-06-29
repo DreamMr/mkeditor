@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
     <title>用户个人中心</title>
-    <link rel="stylesheet" href="MDB-Free_4.7.7/css/all.css">
+    <!--<link rel="stylesheet" href="MDB-Free_4.7.7/css/all.css">-->
     <!-- Bootstrap core CSS -->
     <link href="MDB-Free_4.7.7/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
@@ -27,9 +27,20 @@
         <!--用户信息-->
         <div class="col-md-12 column">
             <h3 style="font-family: 华文行楷"><label id="labelUserName"></label>的个人空间</h3>
-            <br>
-            <a href="index.html">返回主页</a>
-            <br>
+            <div class="row clearfix">
+                <div class="col-md-10 column">
+                    <img src="" id="userImg" class="rounded-circle img-fluid" style="height: 70px;width: 70px;">
+                    <br><br>
+                    <p><label style="font-family: 华文行楷">籍贯：</label><label id="address"></label></p>
+                    <p><label style="font-family: 华文行楷">兴趣爱好：</label><label id="hobby"></label></p>
+                    <div id="editAble">
+
+                    </div>
+                </div>
+                <div class="col-md-2 column">
+                    <a href="index.html">返回主页</a>
+                </div>
+            </div>
             <hr class="hr-dark">
         </div>
     </div>
@@ -217,6 +228,7 @@
                                 "                                </td>\n" +
                                 "                            </tr>");
                         }
+                        $("#editAble").append("<a href=\"userInfo.html\">编辑资料</a>");
                     }else{/*如果不是用户本人的用户空间*/
                         $("#tableHead").append("<th class=\"text-center\">文章标题</th>\n" +
                             "                                <th class=\"text-center\">文章摘要</th>\n" +
@@ -242,6 +254,25 @@
             },
             error:function (data) {
                 alert("获取数据错误");
+            }
+        });
+        $.ajax({
+           url:"/userInfo/getUserInfo",
+           async:true,
+            data:jsonvar,
+            type:"post",
+           success:function (data) {
+               var resp=JSON.parse(data.trim());
+               if(resp.statu==true){
+                   $("#address").html(resp.address);
+                   $("#hobby").html(resp.hobby);
+                   $("#userImg").attr('src','img/'+resp.img);
+               }else{
+                   alert("获取用户信息失败!");
+               }
+           } ,
+            error:function (data) {
+                alert("连接服务器错误！");
             }
         });
         //****************在此添加新的函数******************

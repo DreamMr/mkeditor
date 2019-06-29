@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <link rel="stylesheet" href="MDB-Free_4.7.7/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="MDB-Free_4.7.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="MDB-Free_4.7.7/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="MDB-Free_4.7.7/css/style.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="offcanvas.css">-->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/mdb.min.js"></script>
+    <title>用户信息编辑界面</title>
+</head>
+<body>
+<!--Navbar -->
+<nav class="mb-1 navbar navbar-expand-lg navbar-dark orange lighten-1">
+    <a class="navbar-brand" href="index.html">MD</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+            aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+            <li class="nav-item avatar" id="user">
+
+            </li>
+        </ul>
+    </div>
+</nav>
+<!--/.Navbar -->
+<br>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <h3 style="font-family: 华文行楷"><label id="labelUserName"></label>的个人空间</h3>
+            <br>
+            <div class="col-md-4 column">
+                <div>
+                    <img id="user_img" alt="140x140" src="" class="rounded-circle img-fluid" height="140" width="140" style="cursor:pointer" onclick="upload1()"/>
+                    <input id="file_name" type="hidden"/>
+                    <input id="upload_img" type="file" name="img" style="display: none;" accept="image/png, image/jpeg, image/jpg"/>
+                </div>
+            </div>
+            <br>
+        </div>
+        <div class="col-md-12 column">
+            <div class="md-form input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text md-addon">籍贯</span>
+                </div>
+                <input type="text" class="form-control" placeholder="籍贯" aria-label="Username" aria-describedby="material-addon1" id="address">
+            </div>
+            <div class="md-form input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text md-addon">兴趣爱好</span>
+                </div>
+                <textarea class="md-textarea form-control" aria-label="With textarea" id="hobby"></textarea>
+            </div>
+            <button class="btn btn-primary btn-lg" id="upLoad" style="margin-left: 42%">编辑完成</button>
+        </div>
+    </div>
+</div>
+<script>
+    var ADDRESS_MAX=50;
+    var HOBBY_MAX=200;
+    var imgBase64;
+
+    function upload1() {
+        $('#upload_img').click();
+    }
+    $("#upload_img").change(function () {
+        var fileObj=document.getElementById('upload_img').files[0];
+        turnIntoBase64(fileObj);
+    });
+    function turnIntoBase64(fileObj){
+        var r=new FileReader();
+        r.onload=function () {
+            imgBase64=r.result;
+            $("#user_img").attr('src',imgBase64);
+        };
+        r.readAsDataURL(fileObj);
+    }
+    $(document).ready(function () {
+        $("#upLoad").click(function () {
+            var address=$("#address").val();
+            var hobby = $("#hobby").val();
+            console.log(imgBase64);
+            if(address.length<=ADDRESS_MAX && hobby.length<=HOBBY_MAX){
+                console.log("into");
+                $.post("/userInfo/upLoad",{
+                    img:imgBase64,
+                    address:address,
+                    hobby:hobby
+                },function (data,status) {
+                    if(status.trim()=='success'){
+                        var resp=JSON.parse(data);
+                        if(resp.statu==true){
+                            alert("上传成功！");
+                            window.location.href="index.html";
+                        }else{
+                            alert("上传错误！");
+                        }
+                    }else{
+                        alert("连接服务器错误！");
+                    }
+                });
+            }
+        });
+        $.ajax({
+            url:"/userInfo/getUserInfoSelf",
+            async:true,
+            type:"post",
+            success:function (data) {
+                var resp=JSON.parse(data.trim());
+                if(resp.statu==true){
+                    $("#address").val(resp.address);
+                    $("#hobby").html(resp.hobby);
+                    $("#user_img").attr('src','img/'+resp.img);
+                    $("#user").append("<a class=\"nav-link p-0\" href=\"userspace.html?name="+resp.userName+"\">\n" +
+                        "                    "+resp.userName+"\n" +
+                        "                </a>");
+                    $("#labelUserName").html(resp.userName)
+                }else{
+                    alert("获取用户信息失败!");
+                }
+            } ,
+            error:function (data) {
+                alert("连接服务器错误！");
+            }
+        });
+        //********************在此上添加函数**************
+    })
+</script>
+</body>
+</html>

@@ -3,244 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>文章显示页面</title>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
+    <!--<link rel="stylesheet" href="MDB-Free_4.7.7/css/all.css">-->
+    <!-- Bootstrap core CSS -->
+    <link href="MDB-Free_4.7.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="MDB-Free_4.7.7/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="MDB-Free_4.7.7/css/style.css" rel="stylesheet">
+
+    <link href="MDB-Free_4.7.7/css/font-awesom.css">
+    <link href="MDB-Free_4.7.7/scss/free/_buttons.scss">
+
     <link href="blog.css" rel="stylesheet">
-    <script src="bootstrap/js/jquery.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="bootstrap-markdown/js/bootstrap-markdown-editor.js"></script>
-    <script src="bootstrap-markdown/js/ace.js"></script>
-    <script src="bootstrap-markdown/js/marked.min.js"></script>
+    <!--<link rel="stylesheet" href="offcanvas.css">-->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="MDB-Free_4.7.7/js/mdb.min.js"></script>
+
+    <script type="text/javascript" src="bootstrap-markdown/js/marked.min.js"></script>
+    <title>文章显示页面</title>
+    <style>
+        pre {
+            display: block;
+            padding: 9.5px;
+            margin: 0 0 10px;
+            font-size: 13px;
+            line-height: 1.42857143;
+            color: #333;
+            word-break: break-all;
+            word-wrap: break-word;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-<div class="blog-masthead">
-    <div class="container">
-        <nav class="blog-nav">
-            <a class="blog-nav-item" href="index.html">Home</a>
-            <a class="blog-nav-item pull-right" href="#" id="user"></a>
-        </nav>
+<!--Navbar -->
+<nav class="mb-1 navbar navbar-expand-lg navbar-dark orange lighten-1">
+    <a class="navbar-brand" href="index.html">MD</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+            aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+            <li class="nav-item avatar">
+               <a id="user"></a>
+            </li>
+        </ul>
     </div>
-</div>
+</nav>
+<!--/.Navbar -->
 <div class="container">
     <div class="blog-header">
         <h1 class="blog-title" id="title" style="font-family: 华文行楷"></h1><br>
         <p class="lead blog-description" id="summary"></p>
     </div>
- <div class="blog-post">
-     <p>written by <a id="author"></a></p>
-     <hr>
-     <div id="content">
-         
-     </div>
- </div>
-    <nav>
-        <ul class="pager">
-            <li><a href="javascript:void(0);" onclick="clickGood()">点赞(<label id="likeNum">0</label>)</a></li>
-        </ul>
-    </nav>
-    <!--评论区-->
-    <div>
-        <section class="my-5">
+    <div class="blog-post">
+        <p>written by <a id="author"></a></p>
+        <hr>
+        <div id="content">
 
-            <!-- Grid row -->
-            <div class="row">
-
-                <!-- Grid column -->
-                <div class="col-md-12">
-
-                    <!-- Newsfeed -->
-                    <div class="mdb-feed">
-
-                        <!-- First news -->
-                        <div class="news">
-
-                            <!-- Label -->
-                            <div class="label">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1-mini.jpg" class="rounded-circle z-depth-1-half">
-                            </div>
-
-                            <!-- Excerpt -->
-                            <div class="excerpt">
-
-                                <!-- Brief -->
-                                <div class="brief">
-                                    <a class="name">John Doe</a> added you as a friend
-                                    <div class="date">1 hour ago</div>
-                                </div>
-
-                                <!-- Feed footer -->
-                                <div class="feed-footer">
-                                    <a class="like">
-                                        <i class="fas fa-heart"></i>
-                                        <span>5 likes</span>
-                                    </a>
-                                </div>
-
-                            </div>
-                            <!-- Excerpt -->
-
-                        </div>
-                        <!-- First news -->
-
-                        <!-- Second news -->
-                        <div class="news">
-
-                            <!-- Label -->
-                            <div class="label">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(17)-mini.jpg" class="rounded-circle z-depth-1-half">
-                            </div>
-
-                            <!-- Excerpt -->
-                            <div class="excerpt">
-
-                                <!-- Brief -->
-                                <div class="brief">
-                                    <a class="name">Anna Smith</a> added
-                                    <a> 2 new illustrations</a>
-                                    <div class="date">4 hours ago</div>
-                                </div>
-
-                                <!-- Added images -->
-                                <div class="added-images">
-                                    <img src="https://mdbootstrap.com/img/Photos/Others/images/71.jpg" class="z-depth-1 rounded mb-md-0 mb-2">
-                                    <img src="https://mdbootstrap.com/img/Photos/Others/images/74.jpg" class="z-depth-1 rounded">
-                                </div>
-
-                                <!-- Feed footer -->
-                                <div class="feed-footer">
-                                    <a class="like">
-                                        <i class="fas fa-heart"></i>
-                                        <span>18 likes</span>
-                                    </a>
-                                </div>
-
-                            </div>
-                            <!-- Excerpt -->
-
-                        </div>
-                        <!-- Second news -->
-
-                        <!-- Third news -->
-                        <div class="news">
-
-                            <!-- Label -->
-                            <div class="label">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(9)-mini.jpg" class="rounded-circle z-depth-1-half">
-                            </div>
-
-                            <!-- Excerpt -->
-                            <div class="excerpt">
-
-                                <!-- Brief -->
-                                <div class="brief">
-                                    <a class="name">Danny Moore</a> added you as a friend
-                                    <div class="date">7 hours ago</div>
-                                </div>
-
-                                <!-- Feed footer -->
-                                <div class="feed-footer">
-                                    <a class="like">
-                                        <i class="fas fa-heart"></i>
-                                        <span>11 likes</span>
-                                    </a>
-                                </div>
-
-                            </div>
-                            <!-- Excerpt -->
-
-                        </div>
-                        <!-- Third news -->
-
-                        <!-- Fourth news -->
-                        <div class="news">
-
-                            <!-- Label -->
-                            <div class="label">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(18)-mini.jpg" class="rounded-circle z-depth-1-half">
-                            </div>
-
-                            <!-- Excerpt -->
-                            <div class="excerpt">
-
-                                <!-- Brief -->
-                                <div class="brief">
-                                    <a class="name">Lili Rose</a> posted on his page
-                                    <div class="date">2 days ago</div>
-                                </div>
-
-                                <!-- Added text -->
-                                <div class="added-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero inventore,
-                                    iste quas libero eius? Vitae sint neque animi alias sunt dolor, accusantium ducimus, non placeat
-                                    voluptate.
-                                </div>
-
-                                <!-- Feed footer -->
-
-
-                            </div>
-                            <!-- Excerpt -->
-
-                        </div>
-                        <!-- Fourth news -->
-
-                        <!-- Fifth news -->
-                        <div class="news">
-
-                            <!-- Label -->
-                            <div class="label">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(20)-mini.jpg" class="rounded-circle z-depth-1-half">
-                            </div>
-
-                            <!-- Excerpt -->
-                            <div class="excerpt mb-0">
-
-                                <!-- Brief -->
-                                <div class="brief">
-                                    <a class="name">Kate Harrison</a> added
-                                    <a> 2 new photos</a> of you
-                                    <div class="date">3 days ago</div>
-                                </div>
-
-                                <!-- Added images -->
-                                <div class="added-images">
-                                    <img src="https://mdbootstrap.com/img/Photos/Others/images/29.jpg" class="z-depth-1 rounded mb-md-0 mb-2">
-                                    <img src="https://mdbootstrap.com/img/Photos/Others/images/31.jpg" class="z-depth-1 rounded">
-                                </div>
-
-                                <!-- Feed footer -->
-                                <div class="feed-footer">
-                                    <a class="like">
-                                        <i class="fas fa-heart"></i>
-                                        <span>53 likes</span>
-                                    </a>
-                                </div>
-
-                            </div>
-                            <!-- Excerpt -->
-
-                        </div>
-                        <!-- Fifth news -->
-
-                    </div>
-                    <!-- Newsfeed -->
-
+        </div>
+    </div>
+    <div class="feed-footer">
+        <a class="like" href="javascript:void(0);" onclick="clickGood()">
+            <i class="fas fa-heart"></i>
+            <span id="like"></span> likes
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" id="showCommit">编写评论</button>
+        <button type="button" class="btn btn-primary btn-sm" id="downLoad">下载此文档</button>
+    </div>
+    <section class="my-5">
+        <!-- Grid row -->
+        <div class="row">
+            <!-- Grid column -->
+            <div class="col-md-12">
+                <!-- Newsfeed -->
+                <div class="mdb-feed" id="commentArea">
                 </div>
-                <!-- Grid column -->
-
+                <!-- Newsfeed -->
             </div>
-            <!-- Grid row -->
+            <!-- Grid column -->
 
-        </section>
-        <!-- Section: Social newsfeed v.1 -->
-    </div><!--评论区结束-->
+        </div>
+        <!-- Grid row -->
+
+    </section>
+    <!-- Section: Social newsfeed v.1 -->
 </div>
-<footer class="blog-footer">
-    <p>Blog  for <a href="http://getbootstrap.com">MD</a> by <a href="https://twitter.com/mdo">@wwb</a>.</p>
-    <p>
-        welcome !
-    </p>
-</footer>
+<!--编写评论的模态框-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="md-form">
+                        <input type="text" class="form-control" id="recipient-name"  disabled="disabled"/>
+                    </div>
+                    <div class="md-form">
+                        <textarea type="text" id="message-text" class="form-control md-textarea" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="commitBtn">Commit Comment !</button>
+            </div>
+        </div>
+    </div>
+</div><!--模态框结束-->
+<form id="downloadForm" method='post'action="/article/articleDownload">
+    <input type="hidden" id="articleId" name="articleId"/>
+</form>
 <script>
     function getQueryString(name){
         var reg = new RegExp("(^|&)"+name+"=([^&]*)(&|$)");
@@ -251,6 +145,8 @@
         return '';
     }
     var articleId=getQueryString('articleId');
+    var jsonvar={};
+    jsonvar.articleId=articleId;
     /**
      * 点赞功能
      */
@@ -261,9 +157,10 @@
         }, function (data, status) {
             var resp=JSON.parse(data.trim());
             if (status.trim() == 'success' && resp.statu==true) {
-                var last=parseInt($("#likeNum").html());
+                var last=parseInt($("#like").html());
                 alert("点赞成功！");
-                $("#likeNum").html(last+1);
+                $("#like").empty();
+                $("#like").append(last+1);
             }else{
                 alert("点赞错误，可能是未登录或是已点过赞造成！");
             }
@@ -303,6 +200,7 @@
                 }else{
                     $("#user").attr('href','index.html');
                     $("#user").html("返回主页");
+                    $("#showCommit").attr('disabled','disabled');
                 }
             },
             error:function (data) {
@@ -314,19 +212,22 @@
             articleId:articleId
         },function (data,status) {
             var resp=JSON.parse(data.trim());
-                   var article=resp.article;
-                   if(resp.statu==true){
-                       $("#title").html(article.article_title);
-                       //$("#author").append("<a href=\'userspace.html?name="+article.user_name+"\'></a>");
-                       $("#author").html(article.user_name);
-                       $("#author").attr("href","userspace.html?name="+article.user_name);
-                       $("#summary").html(article.article_short);
-                       console.log(article.user_name);
-                       $("#likeNum").html(article.article_like);
-                       $("#content").html(marked(article.article_content));
-                   }else{
-                       alert("文章加载失败，请稍后重试！");
-                   }
+            var article=resp.article;
+            if(resp.statu==true){
+                $("#title").html(article.article_title);
+                //$("#author").append("<a href=\'userspace.html?name="+article.user_name+"\'></a>");
+                $("#author").html(article.user_name);
+                $("#recipient-name").val("@"+article.user_name);
+                $("#exampleModalLabel").html("Commit comment to "+article.user_name);
+                $("#author").attr("href","userspace.html?name="+article.user_name);
+                $("#summary").html(article.article_short);
+                console.log(article.user_name);
+                //$("#likeNum").html(article.article_like);
+                $("#like").append(article.article_like);
+                $("#content").html(marked(article.article_content));
+            }else{
+                alert("文章加载失败，请稍后重试！");
+            }
         });
         // $.ajax({
         //    url:"/article/getArticle",
@@ -349,7 +250,67 @@
         //         alert("文章加载失败，请稍后重试！");
         //     }
         // });
-
+        $.ajax({
+           url:"/comment/getComment",
+            data:jsonvar,
+            type:"post",
+            async:true,
+            success:function (data) {
+                var resp=JSON.parse(data);
+                if(resp.statu==true){
+                    for(var i=0;i<resp.comments.length;i++){
+                        $("#commentArea").append("<div class=\"news\">\n" +
+                            "                        <div class=\"label\">\n" +
+                            "                            <img src=\"img/"+resp.comments[i].info_img+"\" class=\"rounded-circle z-depth-1-half\" >\n" +
+                            "                        </div>\n" +
+                            "                        <div class=\"excerpt\">\n" +
+                            "                            <div class=\"brief\">\n" +
+                            "                                <a class=\"name\" href='userspace.html?name="+resp.comments[i].user_name+"'>"+resp.comments[i].user_name+"</a>\n" +
+                            "                                <div class=\"date\">"+resp.comments[i].comment_time+"</div>\n" +
+                            "                            </div>\n" +
+                            "                            <div class=\"added-text\">"+resp.comments[i].comment_content+"\n" +
+                            "                            </div>\n" +
+                            "                        </div>\n" +
+                            "                    </div>");
+                    }
+                }else{
+                    alert("获取评论错误！");
+                }
+            },
+            error:function (data) {
+                alert(data);
+            }
+        });
+        $("#commitBtn").click(function () {
+            $.post("/comment/writeComment",{
+                articleId:articleId,
+                content:$("#message-text").val()
+            },function (data,status){
+                var resp=JSON.parse(data);
+                if(resp.statu==true){
+                    alert("评论成功！");
+                    window.location.reload();
+                }else{
+                    alert("评论失败！");
+                }
+            })
+        })
+        $("#downLoad").click(function () {
+            // $.post("/article/articleDownload",{
+            //     articleId:articleId
+            // },function (data,status) {
+            //     //var resp=JSON.parse(data);
+            //     console.log(data);
+            //     // if(resp.statu==false){
+            //     //     alert("下载失败!");
+            //     // }else{
+            //     //     alert("下载成功！");
+            //     // }
+            // })
+            // $("#articleId").val(articleId);
+            // $("#downloadForm").submit();
+            alert("该功能暂未开放，敬请期待！");
+        })
         //**************************在此上添加函数***********
     })
 </script>

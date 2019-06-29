@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <title>编写文章页面</title>
+    <link rel="stylesheet" href="../fileinput/css/fileinput.css">
+    <link rel="stylesheet" href="../fileinput/themes/explorer-fas/theme.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.min.css">
+    <!--<link rel="stylesheet" href="bootstrap-markdown/css/bootstrap-markdown-editor.css">-->
+    <script src="../bootstrap/js/jquery.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <script src="../bootstrap-markdown/build/src/ace.js"></script>
+    <script src="../bootstrap-markdown/build/src/ext-language_tools.js"></script>
+    <script src="../fileinput/js/plugins/sortable.js"></script>
+    <script src="../fileinput/js/fileinput.js"></script>
+    <script src="../fileinput/js/locales/fr.js" type="text/javascript"></script>
+    <script src="../fileinput/js/locales/es.js" type="text/javascript"></script>
+    <script src="../fileinput/themes/fas/theme.js" type="text/javascript"></script>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            width: 500px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form id = "utp" action="/updateTitlePicture" method="post">
+                <div class="file-loading">
+                    <input id="file-1" type="file" multiple class="file" data-overwrite-initial="false" data-min-file-count="2" data-theme="fas" name="file">
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <pre id="editor"></pre>
+        </div>
+        <button id="clicka">获取内容</button>
+        <button id="clickb">设置内容</button>
+        <button id="clickc">搜索</button>
+    </div>
+<br>
+</div>
+
+
+<script>
+    // trigger extension
+    ace.require("ace/ext/language_tools");
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/markdown");
+    editor.setTheme("ace/theme/xcode");
+    editor.getSession().on('change',function (e) {
+        console.log(editor.getValue(1));
+    });
+    //editor.renderer.setScrollMargin(10, 10)
+    // enable autocompletion and snippets
+    // editor.setOptions({
+    //     enableBasicAutocompletion: true,
+    //     enableSnippets: true,
+    //     enableLiveAutocompletion: false
+    // });
+    $("#clicka").click(function () {
+      var content=editor.getValue(1);
+      console.log(content);
+    })
+    $("#clickb").click(function () {
+        editor.setValue("阿斯蒂芬撒地方\n" +
+            "的首发式地方222\n" +
+            "sdf",1);
+    })
+    $("#clickc").click(function () {
+        editor.execCommand('find');
+    })
+    $("#file-1").fileinput({
+       maxFilesNum:1,
+        showUpload: false
+        // allowedFileExtensions: ['.md'],
+        // allowedFileTypes: ['MarkDown']
+    }).on('fileselect',function (event, n, l) {
+        console.log(event.target.value);
+        console.log(event.target.files[0]);
+        var fileName=event.target.value;
+        console.log(fileName);
+        var flag=checkFileSuffix(fileName);
+        if(!flag){
+            alert("上传的文件后缀只能是md结尾的MarkDown文件！");
+            event.target.value=null;
+            return;
+        }
+        var file=event.target.files[0];
+        var reader=new FileReader();
+        //reader.readAsDataURL(file);
+        reader.readAsText(file,"UTF-8");
+        reader.onload=function (evt) {
+            var content=evt.target.result;
+            editor.setValue(content);
+            console.log(content);
+        }
+    })
+    // $("#file-1").change(function (e) {
+    //     var fileName=$("#file-1").val();
+    //     console.log(fileName);
+    //     var flag=checkFileSuffix(fileName);
+    //     if(!flag){
+    //         alert("上传的文件后缀只能是md结尾的MarkDown文件！");
+    //         $("#file-1").val(null);
+    //         return;
+    //     }
+    //     var file=e.target.files[0];
+    //     var reader=new FileReader();
+    //     //reader.readAsDataURL(file);
+    //     reader.readAsText(file,"UTF-8");
+    //     reader.onload=function (evt) {
+    //         var content=evt.target.result;
+    //         editor.setValue(content);
+    //         console.log(content);
+    //     }
+    // })
+    function checkFileSuffix(fileName) {
+        var allowSuffix='md';
+        var index=fileName.lastIndexOf('.');
+        var suffix=fileName.substr(index+1);
+        if(suffix==allowSuffix)return true;
+        else return false;
+    }
+</script>
+</body>
+</html>
