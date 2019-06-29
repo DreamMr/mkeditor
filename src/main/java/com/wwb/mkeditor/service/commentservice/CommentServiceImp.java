@@ -7,6 +7,8 @@ import com.wwb.mkeditor.utils.Logger;
 import com.wwb.mkeditor.utils.TimeStamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ public class CommentServiceImp implements CommentService{
        return ans;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean writeComment(String userName, String content, String articleId) {
         String time= TimeStamp.getTime();
@@ -33,6 +36,7 @@ public class CommentServiceImp implements CommentService{
         }catch (Exception e){
             e.printStackTrace();
             Logger.PrintException(e.getMessage());
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return false;
         }
     }
