@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.InputStream;
+
 import java.io.OutputStream;
-import java.io.StringBufferInputStream;
+import java.io.PrintWriter;
 import java.net.URLEncoder;
 
 /**
@@ -118,25 +117,22 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/articleDownload",method = RequestMethod.POST)
-    public String downloadArticle(@Param("articleId")String articleId, HttpServletResponse response) {
+    public void downloadArticle(@Param("articleId")String articleId, HttpServletResponse response) {
         Article article=articleService.getArticle(articleId.trim());
         String content=article.getArticle_content();
-        System.out.println(content);
-        //String content="您好！我是谁,我在那里？";
-        String fileName=article.getArticle_title()+SUFFIX;
-        JSONObject object=new JSONObject();
+        String fileName=article.getArticle_title();
         try{
+            response.reset();
             response.setContentType("application/text;charset=utf-8");
-            //response.setContentType("text/html;charset=gbk");
-            response.addHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, "gbk"));
-            OutputStream os=response.getOutputStream();
-            os.write(content.getBytes("gbk"));
-            object.put("statu",true);
+            String filename=new String(fileName.getBytes("gb2312"),"ISO8859-1");//先用gb2312来进行编码，然后使用ISO8859-1来解码。但是在http传递数据的过程中会对数据使用ISO8859-1来进行编码，所以此时为gbk2312的字符编码序列。浏览器端就可以解析成中文
+            response.setHeader("Content-Disposition", "attachment;filename=" +filename+SUFFIX);
+            PrintWriter writer=response.getWriter();
+            writer.write(content);
+            writer.flush();
+            writer.close();
         }catch (Exception e){
             e.printStackTrace();
             Logger.PrintException(e.getMessage());
-            object.put("statu",false);
         }
-        return object.toString();
     }
 }
