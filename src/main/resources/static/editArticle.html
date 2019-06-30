@@ -38,7 +38,7 @@
     </div>
     <br><br>
     <div>
-        <h3 style="font-family: 华文琥珀">文章标题(剩余<label id="titleLabel">20</label>字)</h3><br><br>
+        <h3 style="font-family: 华文琥珀">文章标题(剩余<label id="titleLabel">20</label>字)</h3><label style="color: red;">文章标题不能有空格！</label><br><br>
         <input type="text" class="input-lg" id="title" style="font-size: xx-large;width: 70%;"/>
     </div>
     <hr>
@@ -104,7 +104,7 @@
 
     //****************在此添加工具******
     function checkTitle(title){
-        if(title.length>maxTitle || title.length<=0){return false;}
+        if(title.length>maxTitle || title.length<=0 || !(title.indexOf(' ')===-1)){return false;}
         else return true;
     }
     function checkSummary(summary){
@@ -200,6 +200,7 @@
             var title = $("#title").val();
             var summary = $("#summary").val();
             var content = editor.getValue(1);
+            title=title.trim();
             if(checkTitle(title) && checkSummary(summary)){
                 var json = {};
                 json.title=title;
@@ -225,7 +226,7 @@
                     },
                 })
             }else{
-                alert("您输入的标题过长或摘要过长！");
+                alert("您输入的标题过长或摘要过长或者是文章标题有空格！");
             }
         });
         //************在此添加函数********
