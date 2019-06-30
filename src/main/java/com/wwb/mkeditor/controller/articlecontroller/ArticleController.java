@@ -124,7 +124,7 @@ public class ArticleController {
         try{
             response.reset();
             response.setContentType("application/text;charset=utf-8");
-            String filename=new String(fileName.getBytes("gb2312"),"ISO8859-1");//先用gb2312来进行编码，然后使用ISO8859-1来解码。但是在http传递数据的过程中会对数据使用ISO8859-1来进行编码，所以此时为gbk2312的字符编码序列。浏览器端就可以解析成中文
+            String filename=new String(fileName.getBytes("utf-8"),"ISO8859-1");//先用gb2312来进行编码，然后使用ISO8859-1来解码。但是在http传递数据的过程中会对数据使用ISO8859-1来进行编码，所以此时为gbk2312的字符编码序列。浏览器端就可以解析成中文
             response.setHeader("Content-Disposition", "attachment;filename=" +filename+SUFFIX);
             PrintWriter writer=response.getWriter();
             writer.write(content);
